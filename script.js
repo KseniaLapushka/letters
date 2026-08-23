@@ -1,5 +1,5 @@
-// farfalle — простой мини-сайт для писем.
-// Все данные о письмах хранятся в letters.json — чтобы добавить новое письмо,
+// farfalle — простой мини-сайт для заметок.
+// Все данные о заметках хранятся в letters.json — чтобы добавить новую заметку,
 // не нужно трогать HTML/JS: просто добавь новый объект в массив в letters.json.
 
 async function loadLetters() {
@@ -19,11 +19,11 @@ async function renderHome() {
   const letters = await loadLetters();
 
   if (!letters.length) {
-    list.innerHTML = '<p class="home__empty">писем пока нет.</p>';
+    list.innerHTML = '<p class="home__empty">заметок пока нет.</p>';
     return;
   }
 
-  // Новые письма — сверху
+  // Новые заметки — сверху
   const sorted = [...letters].sort((a, b) => new Date(b.date) - new Date(a.date));
 
   list.innerHTML = sorted
@@ -51,7 +51,7 @@ async function renderLetter() {
   const letter = letters.find((l) => l.id === id);
 
   if (!letter) {
-    content.innerHTML = '<p class="letter__empty">письмо не найдено.</p>';
+    content.innerHTML = '<p class="letter__empty">заметка не найдена.</p>';
     return;
   }
 
