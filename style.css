@@ -146,7 +146,8 @@ img {
   font-size: 15px;
   color: var(--color-text);
   max-width: 480px;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
+  text-align: center;
 }
 
 .letter-list {
@@ -166,7 +167,7 @@ img {
 
 .letter-card__paper {
   height: 100%;
-  background: #fffffb;
+  background: #fcfcfb;
   border-radius: 2px;
   padding: 26px 22px 20px;
   text-align: center;
@@ -194,6 +195,7 @@ img {
 
 .letter-card__excerpt {
   font-family: var(--font-sans);
+  font-weight: 300;
   font-size: 14px;
   line-height: 1.5;
   color: var(--color-text-muted);
