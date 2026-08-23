@@ -1,12 +1,27 @@
+@font-face {
+  font-family: "Druk Cyr";
+  src: url("type/DrukCyr-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monotype Corsiva";
+  src: url("type/Monotype_Corsiva.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --color-text: #210038;
   --color-text-muted: #7a7a7a;
   --color-bg-default: #ffffff;
   --color-card-border: #f0ede8;
-  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-  --font-hand: "Caveat", "Comic Sans MS", cursive;
-  --font-title: "Inter Tight", var(--font-sans);
+  --font-druk: "Druk Cyr", var(--font-sans);
+  --font-corsiva: "Monotype Corsiva", cursive;
   --color-paper: #fdfbf6;
   --color-paper-border: #e6e0d2;
 }
@@ -49,64 +64,89 @@ img {
 
 .home-page .wrap {
   max-width: 760px;
+  padding-top: 48px;
 }
 
 /* ---------- Главная ---------- */
 
-.home-page {
+/* Hero на весь экран (100vh) с отступом 10px от края вьюпорта.
+   Никакого блюра — картинка везде чёткая, только полосатое затухание
+   внизу и заголовок по центру. */
+.hero {
   position: relative;
+  height: 100vh;
+  min-height: 100vh;
 }
 
-/* Фоновая картинка на всю страницу: чёткий слой + отдельный размытый слой
-   сверху, который гаснет по градиентной маске — так блюр получается
-   настоящим (filter: blur на своём слое), а не через backdrop-filter,
-   который вместе с mask-image даёт слабый, "растянутый" эффект. */
-.home__bg {
-  position: fixed;
-  inset: 0;
-  z-index: -3;
+.hero__frame {
+  position: absolute;
+  inset: 10px;
+  border-radius: 2px;
   overflow: hidden;
 }
 
-.home__bg-sharp,
-.home__bg-blur {
+.hero__bg {
   position: absolute;
+  inset: 0;
   background: url("images/home-bg.png") center 25% / cover no-repeat;
 }
 
-.home__bg-sharp {
-  inset: 0;
+/* Полосатое затухание в белый — вместо плавного градиента, набор тонких
+   горизонтальных линий, плотность/яркость которых нарастает к низу. */
+.hero__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16%;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #fff 0,
+    #fff 2px,
+    transparent 2px,
+    transparent 8px
+  );
+  mask-image: linear-gradient(to bottom, transparent, #fff 85%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #fff 85%);
 }
 
-.home__bg-blur {
-  /* больше исходной картинки, чтобы блюр не съедал края */
-  inset: -60px;
-  filter: blur(10px);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 20%, transparent 90%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 20%, transparent 90%);
-}
-
-.home__bg-scrim {
+.hero__title {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(20, 0, 35, 0.5), rgba(20, 0, 35, 0) 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 18px;
+  margin: 0;
+  padding: 0 28px;
+  text-align: center;
+  pointer-events: none;
 }
 
-.home__title {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(28px, 5vw, 40px);
-  letter-spacing: -0.01em;
-  margin-bottom: 20px;
+.hero__title-main {
+  font-family: var(--font-druk);
+  font-weight: 500;
+  font-size: clamp(30px, 6vw, 64px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
   color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
+}
+
+.hero__title-script {
+  font-family: var(--font-corsiva);
+  font-size: clamp(26px, 5vw, 48px);
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
 }
 
 .home__bio {
   font-size: 15px;
-  color: #fff;
+  color: var(--color-text);
   max-width: 480px;
-  margin-bottom: 56px;
+  margin-bottom: 40px;
 }
 
 .letter-list {
@@ -134,19 +174,20 @@ img {
 
 .letter-card__title {
   display: block;
-  font-family: var(--font-title);
-  font-weight: 600;
-  font-size: 22px;
-  letter-spacing: -0.01em;
+  font-family: var(--font-druk);
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0;
+  text-transform: uppercase;
   line-height: 1.15;
   margin-bottom: 10px;
 }
 
 .letter-card__date {
   display: block;
-  font-family: var(--font-hand);
+  font-family: var(--font-corsiva);
   font-weight: 400;
-  font-size: 18px;
+  font-size: 20px;
   color: var(--color-text);
   margin-top: 42px;
 }
