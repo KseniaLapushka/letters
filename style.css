@@ -137,9 +137,9 @@ img {
 
 .hero__title-script {
   font-family: var(--font-corsiva);
+  font-weight: 400;
   font-size: clamp(26px, 5vw, 48px);
   color: #fff;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.25);
 }
 
 .home__bio {
