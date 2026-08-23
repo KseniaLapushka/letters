@@ -1,0 +1,262 @@
+:root {
+  --color-text: #210038;
+  --color-text-muted: #7a7a7a;
+  --color-bg-default: #ffffff;
+  --color-card-border: #f0ede8;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-hand: "Caveat", "Comic Sans MS", cursive;
+  --font-title: "Inter Tight", var(--font-sans);
+  --color-paper: #fdfbf6;
+  --color-paper-border: #e6e0d2;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg-default);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ---------- Общий контейнер ---------- */
+
+.wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 56px 24px 96px;
+}
+
+.home-page .wrap {
+  max-width: 760px;
+}
+
+/* ---------- Главная ---------- */
+
+.home-page {
+  position: relative;
+}
+
+/* Фоновая картинка на всю страницу: чёткий слой + отдельный размытый слой
+   сверху, который гаснет по градиентной маске — так блюр получается
+   настоящим (filter: blur на своём слое), а не через backdrop-filter,
+   который вместе с mask-image даёт слабый, "растянутый" эффект. */
+.home__bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+}
+
+.home__bg-sharp,
+.home__bg-blur {
+  position: absolute;
+  background: url("images/home-bg.png") center 25% / cover no-repeat;
+}
+
+.home__bg-sharp {
+  inset: 0;
+}
+
+.home__bg-blur {
+  /* больше исходной картинки, чтобы блюр не съедал края */
+  inset: -60px;
+  filter: blur(10px);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 20%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 20%, transparent 90%);
+}
+
+.home__bg-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(20, 0, 35, 0.5), rgba(20, 0, 35, 0) 60%);
+}
+
+.home__title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 40px);
+  letter-spacing: -0.01em;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.home__bio {
+  font-size: 15px;
+  color: #fff;
+  max-width: 480px;
+  margin-bottom: 56px;
+}
+
+.letter-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.letter-card {
+  display: block;
+  transition: transform 0.15s ease;
+}
+
+.letter-card:hover {
+  transform: translateY(-2px);
+}
+
+.letter-card__paper {
+  height: 100%;
+  background: #fffffb;
+  border-radius: 2px;
+  padding: 26px 22px 20px;
+  text-align: center;
+}
+
+.letter-card__title {
+  display: block;
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.letter-card__date {
+  display: block;
+  font-family: var(--font-hand);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--color-text);
+  margin-top: 42px;
+}
+
+.letter-card__excerpt {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Страница письма ---------- */
+
+.letter-page {
+  min-height: 100vh;
+  background: var(--color-bg-default) url("images/letter-bg.avif") repeat;
+}
+
+.letter__back {
+  display: inline-block;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 32px;
+}
+
+.letter__back:hover {
+  color: var(--color-text);
+}
+
+.letter__title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.letter__card {
+  border: 1px solid var(--color-card-border);
+  border-radius: 2px;
+  padding: 32px 28px;
+  background: #fff;
+}
+
+/* Конверт перед текстом письма: базовая картинка конверта с открытым
+   клапаном + фото письма, обрезанное по форме проёма клапана и наложенное
+   поверх — конверт на исходном фото сплошной, без прозрачности, поэтому
+   фото просто "встаёт" в его пустую внутреннюю область. */
+.letter__envelope {
+  position: relative;
+  width: 100%;
+  max-width: 255px;
+  margin: 0 auto 28px;
+  aspect-ratio: 1 / 1;
+  background: transparent;
+}
+
+.letter__envelope-base,
+.letter__envelope-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: transparent;
+}
+
+.letter__envelope-photo {
+  /* плоский верх (без острого кончика клапана) + сужение в точку внизу,
+     по границам проёма на фото конверта */
+  clip-path: polygon(17% 31%, 84% 31%, 84% 48%, 47% 65%, 17% 48%);
+}
+
+.letter__block {
+  margin-bottom: 28px;
+}
+
+.letter__block:last-child {
+  margin-bottom: 0;
+}
+
+.letter__text {
+  font-family: "Helvetica Neue", var(--font-sans);
+  font-size: 16px;
+  white-space: pre-wrap;
+}
+
+.letter__image {
+  border-radius: 0;
+}
+
+@media (max-width: 480px) {
+  .letter__card {
+    padding: 24px 20px;
+  }
+}
+
+.letter__empty,
+.home__empty {
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+@media (max-width: 560px) {
+  .wrap {
+    padding: 40px 20px 72px;
+  }
+
+  .letter-list {
+    grid-template-columns: 1fr;
+  }
+}
